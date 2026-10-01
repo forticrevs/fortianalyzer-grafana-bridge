@@ -1,0 +1,9 @@
+{
+  "url": "https://faz.example.com",
+  "username": "grafana-api",
+  "adom": "root",
+  "verify_tls": true,
+  "bind": "127.0.0.1",
+  "port": 8788,
+  "max_rows": 10000
+}

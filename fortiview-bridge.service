@@ -1,0 +1,19 @@
+[Unit]
+Description=FortiAnalyzer historical FortiView bridge
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+ExecStart=/usr/bin/python3 /opt/fortiview-bridge/adapter.py --config /etc/fortiview-bridge/config.json
+EnvironmentFile=/etc/fortiview-bridge/secrets.env
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

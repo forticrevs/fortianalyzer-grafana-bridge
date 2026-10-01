@@ -1,0 +1,857 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_FORTIVIEW",
+      "label": "FortiAnalyzer FortiView",
+      "type": "datasource",
+      "pluginId": "yesoreyeram-infinity-datasource",
+      "pluginName": "Infinity"
+    }
+  ],
+  "id": null,
+  "uid": "faz-web-usage",
+  "title": "FortiAnalyzer \u00b7 Historical Web Usage",
+  "description": "Historical FortiView website domains, source endpoints and native time series, queried through a server-side API bridge.",
+  "tags": [
+    "fortianalyzer",
+    "fortiview",
+    "web-usage"
+  ],
+  "schemaVersion": 39,
+  "version": 1,
+  "timezone": "browser",
+  "editable": true,
+  "refresh": "",
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "panels": [
+    {
+      "id": 1,
+      "title": "FortiView \u00b7 Historical web usage",
+      "type": "text",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 4
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "**Historical website usage by endpoint.** Select a FortiGate, endpoint and time range; enter an exact website or click one below. Use `All` to clear a filter.\n\nSessions are not page views or people. Traffic charts show bytes per bucket. Selecting all FortiGates may count traffic observed more than once."
+      }
+    },
+    {
+      "id": 2,
+      "title": "Website entries",
+      "type": "stat",
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 6,
+        "h": 4
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto"
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_FORTIVIEW}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_FORTIVIEW}"
+          },
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "url": "/api/summary?from=${__from}&to=${__to}&device=${fortigate:percentencode}&source=${endpoint:percentencode}&domain=${website:percentencode}",
+          "url_options": {
+            "method": "GET"
+          },
+          "root_selector": "rows",
+          "columns": [
+            {
+              "selector": "websites",
+              "text": "Website entries",
+              "type": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Web sessions",
+      "type": "stat",
+      "gridPos": {
+        "x": 6,
+        "y": 4,
+        "w": 6,
+        "h": 4
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto"
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_FORTIVIEW}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_FORTIVIEW}"
+          },
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "url": "/api/summary?from=${__from}&to=${__to}&device=${fortigate:percentencode}&source=${endpoint:percentencode}&domain=${website:percentencode}",
+          "url_options": {
+            "method": "GET"
+          },
+          "root_selector": "rows",
+          "columns": [
+            {
+              "selector": "sessions",
+              "text": "Web sessions",
+              "type": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Transferred",
+      "type": "stat",
+      "gridPos": {
+        "x": 12,
+        "y": 4,
+        "w": 6,
+        "h": 4
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto"
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_FORTIVIEW}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_FORTIVIEW}"
+          },
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "url": "/api/summary?from=${__from}&to=${__to}&device=${fortigate:percentencode}&source=${endpoint:percentencode}&domain=${website:percentencode}",
+          "url_options": {
+            "method": "GET"
+          },
+          "root_selector": "rows",
+          "columns": [
+            {
+              "selector": "bandwidth",
+              "text": "Transferred",
+              "type": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Blocked sessions",
+      "type": "stat",
+      "gridPos": {
+        "x": 18,
+        "y": 4,
+        "w": 6,
+        "h": 4
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto"
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_FORTIVIEW}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_FORTIVIEW}"
+          },
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "url": "/api/summary?from=${__from}&to=${__to}&device=${fortigate:percentencode}&source=${endpoint:percentencode}&domain=${website:percentencode}",
+          "url_options": {
+            "method": "GET"
+          },
+          "root_selector": "rows",
+          "columns": [
+            {
+              "selector": "session_block",
+              "text": "Blocked sessions",
+              "type": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Web sessions over time",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      },
+      "description": "Native FortiView website-line time buckets. Bucket sizes are chosen by FortiAnalyzer; edge buckets can be partial. Values are counts or bytes per bucket, not rates.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 12,
+            "showPoints": "auto",
+            "spanNulls": false,
+            "axisLabel": "Sessions per bucket"
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Blocked"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_FORTIVIEW}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_FORTIVIEW}"
+          },
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "timeseries",
+          "url": "/api/timeseries?from=${__from}&to=${__to}&device=${fortigate:percentencode}&source=${endpoint:percentencode}&domain=${website:percentencode}",
+          "url_options": {
+            "method": "GET"
+          },
+          "root_selector": "rows",
+          "columns": [
+            {
+              "selector": "time",
+              "text": "Time",
+              "type": "timestamp_epoch"
+            },
+            {
+              "selector": "session_pass",
+              "text": "Allowed",
+              "type": "number"
+            },
+            {
+              "selector": "session_block",
+              "text": "Blocked",
+              "type": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Web traffic per time bucket",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 12,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      },
+      "description": "Native FortiView website-line time buckets. Bucket sizes are chosen by FortiAnalyzer; edge buckets can be partial. Values are counts or bytes per bucket, not rates.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 12,
+            "showPoints": "auto",
+            "spanNulls": false,
+            "axisLabel": "Bytes per bucket"
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Sent"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_FORTIVIEW}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_FORTIVIEW}"
+          },
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "timeseries",
+          "url": "/api/timeseries?from=${__from}&to=${__to}&device=${fortigate:percentencode}&source=${endpoint:percentencode}&domain=${website:percentencode}",
+          "url_options": {
+            "method": "GET"
+          },
+          "root_selector": "rows",
+          "columns": [
+            {
+              "selector": "time",
+              "text": "Time",
+              "type": "timestamp_epoch"
+            },
+            {
+              "selector": "traffic_in",
+              "text": "Received",
+              "type": "number"
+            },
+            {
+              "selector": "traffic_out",
+              "text": "Sent",
+              "type": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Websites for the selected endpoint",
+      "type": "table",
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 24,
+        "h": 11
+      },
+      "description": "Complete website-domain results within the service row limit. Click a website to apply it to the charts. Domain/IP labels are returned unchanged by FortiView.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Bytes"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Received"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Sent"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Website"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Filter this website",
+                    "url": "/d/faz-web-usage?${__url_time_range}&${fortigate:queryparam}&${endpoint:queryparam}&var-website=${__value.raw:percentencode}",
+                    "targetBlank": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "sortBy": [
+          {
+            "displayName": "Sessions",
+            "desc": true
+          }
+        ]
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_FORTIVIEW}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_FORTIVIEW}"
+          },
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "url": "/api/websites?from=${__from}&to=${__to}&device=${fortigate:percentencode}&source=${endpoint:percentencode}&domain=${website:percentencode}",
+          "url_options": {
+            "method": "GET"
+          },
+          "root_selector": "rows",
+          "columns": [
+            {
+              "selector": "domain",
+              "text": "Website",
+              "type": "string"
+            },
+            {
+              "selector": "agg_webcat",
+              "text": "Category",
+              "type": "string"
+            },
+            {
+              "selector": "sessions",
+              "text": "Sessions",
+              "type": "number"
+            },
+            {
+              "selector": "session_block",
+              "text": "Blocked",
+              "type": "number"
+            },
+            {
+              "selector": "bandwidth",
+              "text": "Bytes",
+              "type": "number"
+            },
+            {
+              "selector": "traffic_in",
+              "text": "Received",
+              "type": "number"
+            },
+            {
+              "selector": "traffic_out",
+              "text": "Sent",
+              "type": "number"
+            },
+            {
+              "selector": "fortigate",
+              "text": "FortiGate serials",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Endpoints \u00b7 click an IP to investigate",
+      "type": "table",
+      "gridPos": {
+        "x": 0,
+        "y": 27,
+        "w": 24,
+        "h": 9
+      },
+      "description": "Choose an endpoint to see its websites and historical charts above. This navigation table is not narrowed by the endpoint selector.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Source IP"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Show websites for this endpoint",
+                    "url": "/d/faz-web-usage?${__url_time_range}&${fortigate:queryparam}&var-endpoint=${__value.raw}&${website:queryparam}",
+                    "targetBlank": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "sortBy": []
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_FORTIVIEW}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_FORTIVIEW}"
+          },
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "url": "/api/sources?from=${__from}&to=${__to}&device=${fortigate:percentencode}&domain=${website:percentencode}",
+          "url_options": {
+            "method": "GET"
+          },
+          "root_selector": "rows",
+          "columns": [
+            {
+              "selector": "srcip",
+              "text": "Source IP",
+              "type": "string"
+            },
+            {
+              "selector": "dev_src_agg",
+              "text": "Device identity",
+              "type": "string"
+            },
+            {
+              "selector": "f_user",
+              "text": "User",
+              "type": "string"
+            },
+            {
+              "selector": "fortigate",
+              "text": "FortiGate serials",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "fortigate",
+        "label": "FortiGate",
+        "type": "query",
+        "datasource": {
+          "type": "yesoreyeram-infinity-datasource",
+          "uid": "${DS_FORTIVIEW}"
+        },
+        "query": {
+          "queryType": "infinity",
+          "refId": "fortigate",
+          "infinityQuery": {
+            "refId": "A",
+            "type": "json",
+            "source": "url",
+            "parser": "backend",
+            "format": "table",
+            "url": "/api/devices",
+            "url_options": {
+              "method": "GET"
+            },
+            "root_selector": "rows",
+            "columns": [
+              {
+                "selector": "text",
+                "text": "__text",
+                "type": "string"
+              },
+              {
+                "selector": "value",
+                "text": "__value",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "refresh": 2,
+        "includeAll": true,
+        "allValue": "All",
+        "multi": false,
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "options": [],
+        "sort": 1
+      },
+      {
+        "name": "endpoint",
+        "label": "Endpoint IP",
+        "type": "query",
+        "datasource": {
+          "type": "yesoreyeram-infinity-datasource",
+          "uid": "${DS_FORTIVIEW}"
+        },
+        "query": {
+          "queryType": "infinity",
+          "refId": "endpoint",
+          "infinityQuery": {
+            "refId": "A",
+            "type": "json",
+            "source": "url",
+            "parser": "backend",
+            "format": "table",
+            "url": "/api/sources?from=${__from}&to=${__to}&device=${fortigate:percentencode}",
+            "url_options": {
+              "method": "GET"
+            },
+            "root_selector": "rows",
+            "columns": [
+              {
+                "selector": "text",
+                "text": "__text",
+                "type": "string"
+              },
+              {
+                "selector": "value",
+                "text": "__value",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "refresh": 2,
+        "includeAll": true,
+        "allValue": "All",
+        "multi": false,
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "options": [],
+        "sort": 1
+      },
+      {
+        "name": "website",
+        "label": "Website (exact or All)",
+        "type": "textbox",
+        "query": "All",
+        "current": {
+          "text": "All",
+          "value": "All"
+        },
+        "options": []
+      }
+    ]
+  },
+  "annotations": {
+    "list": []
+  }
+}
